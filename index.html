@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploración del Cosmos</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #0a0a0f; color: #fff; }
+        h1 { color: #87CEEB; }
+        a { color: #00bcd4; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .item { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Explorando el Cosmos Infinito 🚀✨</h1>
+    <p>Hacé clic en cualquier carpeta o archivo para abrirlo:</p>
+
+    <div id="listado"></div>
+
+    <script>
+        // Muestra automáticamente TODOS los archivos y carpetas del repo
+        fetch('./')
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const links = [...doc.querySelectorAll('a')].filter(a => a.href.includes('?'));
+                
+                const cont = document.getElementById('listado');
+                links.forEach(a => {
+                    const div = document.createElement('div');
+                    div.className = 'item';
+                    div.innerHTML = `<a href="${a.getAttribute('href')}">${a.textContent}</a>`;
+                    cont.appendChild(div);
+                });
+            });
+    </script>
+</body>
+</html>
